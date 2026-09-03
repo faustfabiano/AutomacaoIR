@@ -1,0 +1,23 @@
+Apply
+# IntelliJ / Android Studio (recriado automaticamente pela IDE)
+*.iml
+.idea/
+
+# Gradle
+.gradle
+/local.properties
+/build
+app/build/
+
+# Capturas e builds nativos (NDK)
+/captures
+.externalNativeBuild
+.cxx
+
+# Sistema operacional
+.DS_Store
+
+# Chaves de assinatura - NUNCA subir para o git!
+*.jks
+*.keystore
+*.jks.backup
