@@ -1,134 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:rotationX="-6"
+    android:fillViewport="true"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="50dp"
-        android:text="Liga AR"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.22"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.082" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="75dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="204dp"
-        android:text="Desliga AR"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.006"
-        app:layout_constraintStart_toEndOf="@+id/button1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.598" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="76dp"
-        android:text="Desliga Led"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintHorizontal_bias="0.356"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="106dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="52dp"
-        android:text="Botão 4"
-        app:layout_constraintHorizontal_bias="0.619"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button3" />
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/status_desconectado"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/statusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="244dp"
-        android:text="Status: Desconectado"
-        android:textSize="18sp"
-        app:layout_constraintHorizontal_bias="0.436"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button4" />
+        <Button
+            android:id="@+id/btnTentarNovamente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/tentar_novamente"
+            android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tvSeekBarValue"
-        android:layout_width="64dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="438dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="36dp"
-        android:text="Value: 0"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/tvTemp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="22°C"
+            android:textColor="@color/azul_acento"
+            android:textSize="72sp"
+            android:textStyle="bold" />
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="337dp"
-        android:layout_height="84dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="62dp"
-        android:layout_marginBottom="16dp"
-        android:max="13"
-        android:progress="3"
-        app:layout_constraintBottom_toTopOf="@+id/statusTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top" />
+            <Button
+                android:id="@+id/btnTempDown"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:text="@string/menos"
+                android:textSize="24sp" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top" />
+            <Space
+                android:layout_width="48dp"
+                android:layout_height="1dp" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="272dp"
-        android:layout_marginEnd="204dp"
-        android:layout_marginBottom="142dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvSeekBarValue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+            <Button
+                android:id="@+id/btnTempUp"
+                android:layout_width="72dp"
+                android:layout_height="wrap_content"
+                android:text="@string/mais"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/flow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/label_modo"
+            android:textSize="14sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnModeVentilador"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mode_ventilador" />
+
+            <Button
+                android:id="@+id/btnModeAr"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mode_ar" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/label_velocidade"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnFan1"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/btnFan2"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2" />
+
+            <Button
+                android:id="@+id/btnFan3"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3" />
+
+            <Button
+                android:id="@+id/btnFanAuto"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/fan_auto" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnPower"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/vermelho_off"
+            android:text="@string/power_on"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnDesligaLed"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/desliga_led" />
+
+    </LinearLayout>
+</ScrollView>

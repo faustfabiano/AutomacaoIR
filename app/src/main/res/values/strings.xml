@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">automação IR</string>
+
+    <!-- Status MQTT -->
+    <string name="status_desconectado">Status: Desconectado</string>
+    <string name="status_conectado">Status: Conectado</string>
+    <string name="status_conexao_perdida">Status: Conexão Perdida</string>
+    <string name="status_erro_conexao">Status: Erro na Conexão</string>
+
+    <!-- Validação da placa -->
+    <string name="status_aguardando_placa">Aguardando resposta da placa...</string>
+    <string name="status_placa_online">Placa online ✓</string>
+    <string name="status_placa_offline">Placa offline (sem resposta)</string>
+    <string name="tentar_novamente">🔄 Tentar novamente</string>
+
+    <!-- Temperatura -->
+    <string name="mais">+</string>
+    <string name="menos">−</string>
+
+    <!-- Modos (modo-ventilador | modo-ar) -->
+    <string name="label_modo">Modo</string>
+    <string name="mode_ventilador">VENTILADOR</string>
+    <string name="mode_ar">AR</string>
+
+    <!-- Velocidade (velocidade_1..3 | velocidade_auto) -->
+    <string name="label_velocidade">Velocidade do ventilador</string>
+    <string name="fan_auto">AUTO</string>
+
+    <!-- Power -->
+    <string name="power_on">⏻ LIGAR</string>
+    <string name="power_off">⏻ DESLIGAR</string>
+
+    <!-- Utilidades -->
+    <string name="desliga_led">Desliga LED da placa</string>
 </resources>
