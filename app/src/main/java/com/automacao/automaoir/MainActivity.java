@@ -11,6 +11,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
     private MqttClient mqttClient;
     private TextView statusTextView;
-    private final String brokerUrl = "tcp://broker.hivemq.com:1883";
+   // private final String brokerUrl = "tcp://broker.hivemq.com:1883";
+    private final String brokerUrl = "tcp://192.168.0.250:1883";
     private final String topic_subscriber = "fe6464c65c674037a8fea7aa34150954/app";
-    private final String topic_publish = "fe6464c65c674037a8fea7aa34150954/hard";
+    private final String topic_publish_1 = "fe6464c65c674037a8fea7aa341509541/hard_1";
+    private final String topic_publish_2 = "fe6464c65c674037a8fea7aa341509541/hard_2";
     private final String clientId = MqttClient.generateClientId();
 
     // Tempo maximo para a placa responder ao ValidaPlacaOnline
@@ -58,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnModeVentilador, btnModeAr;
     private Button btnFan1, btnFan2, btnFan3, btnFanAuto;
     private Button btnDesligaLed;
+    private Spinner spinnerLocal;
+    private String currentTopicPublish = topic_publish_1;
     private Button btnTentarNovamente;
 
     // Todos os controles que dependem da placa estar online
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         btnFanAuto = findViewById(R.id.btnFanAuto);
         btnDesligaLed = findViewById(R.id.btnDesligaLed);
         btnTentarNovamente = findViewById(R.id.btnTentarNovamente);
+        spinnerLocal = findViewById(R.id.spinner_local);
 
         controles = new Button[]{
                 btnPower, btnTempUp, btnTempDown,
@@ -100,13 +107,14 @@ public class MainActivity extends AppCompatActivity {
         atualizarBotaoPower();
         atualizarDestaqueModo();
         atualizarDestaqueVelocidade();
+        configurarSpinnerLocal();
 
         // Power -> ar-on | ar-off
         btnPower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ligado = !ligado;
-                publishMessage(topic_publish, ligado ? "ar-on" : "ar-off");
+                publishMessage(currentTopicPublish, ligado ? "ar-on" : "ar-off");
                 atualizarBotaoPower();
             }
         });
@@ -118,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 if (temperatura < TEMP_MAX) {
                     temperatura++;
                     atualizarTemp();
-                    publishMessage(topic_publish, "temp-" + temperatura);
+                    publishMessage(currentTopicPublish, "temp-" + temperatura);
                 }
             }
         });
@@ -129,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 if (temperatura > TEMP_MIN) {
                     temperatura--;
                     atualizarTemp();
-                    publishMessage(topic_publish, "temp-" + temperatura);
+                    publishMessage(currentTopicPublish, "temp-" + temperatura);
                 }
             }
         });
@@ -140,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 modo = "ventilador";
                 atualizarDestaqueModo();
-                publishMessage(topic_publish, "modo-ventilador");
+                publishMessage(currentTopicPublish, "modo-ventilador");
             }
         });
 
@@ -149,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 modo = "ar";
                 atualizarDestaqueModo();
-                publishMessage(topic_publish, "modo-ar");
+                publishMessage(currentTopicPublish, "modo-ar");
             }
         });
 
@@ -175,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
         btnDesligaLed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                publishMessage(topic_publish, "desliga_led");
+                publishMessage(currentTopicPublish, "desliga_led");
             }
         });
 
@@ -188,6 +196,30 @@ public class MainActivity extends AppCompatActivity {
         });
 
         connectToMqttBroker();
+    }
+
+    private void configurarSpinnerLocal() {
+        spinnerLocal.setSelection(0);
+        spinnerLocal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String novoTopico = position == 0 ? topic_publish_1 : topic_publish_2;
+                if (novoTopico.equals(currentTopicPublish)) {
+                    return;
+                }
+                currentTopicPublish = novoTopico;
+
+                MqttClient c = mqttClient;
+                if (c != null && c.isConnected()) {
+                    iniciarValidacaoPlaca();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Mantem o topico atual.
+            }
+        });
     }
 
     // ===== HABILITACAO / DESABILITACAO DOS CONTROLES =====
@@ -203,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
     private void definirVelocidade(String novaVelocidade) {
         velocidade = novaVelocidade;
         atualizarDestaqueVelocidade();
-        publishMessage(topic_publish, "velocidade_" + velocidade);
+        publishMessage(currentTopicPublish, "velocidade_" + velocidade);
     }
 
     private void atualizarTemp() {
@@ -247,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         btnTentarNovamente.setVisibility(View.GONE);
         statusTextView.setText(R.string.status_aguardando_placa);
         iniciarTimeoutValidacao();
-        publishMessage(topic_publish, "ValidaPlacaOnline");
+        publishMessage(currentTopicPublish, "ValidaPlacaOnline");
     }
 
     // Chamado quando chega QUALQUER mensagem do topico da placa

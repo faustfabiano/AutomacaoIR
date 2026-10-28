@@ -32,4 +32,10 @@
 
     <!-- Utilidades -->
     <string name="desliga_led">Desliga LED da placa</string>
+    <string name="label_local">Local</string>
+
+    <string-array name="opcoes_locais">
+        <item>Quarto</item>
+        <item>Escritorio</item>
+    </string-array>
 </resources>
