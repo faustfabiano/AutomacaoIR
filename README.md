@@ -2,6 +2,8 @@
 
 App Android para controlar um **ar-condicionado** remotamente via **infravermelho (IR)**, usando **MQTT** como canal de comunicação e uma placa **ESP8266** como ponte entre a rede e o aparelho.
 
+O ícone do app usa um **floco de neve branco sobre fundo azul**, combinando com a tela de abertura. Ele se adapta aos formatos do launcher (incluindo o circular) e oferece uma versão monocromática para os ícones temáticos do Android 13 ou superior. O app requer Android 11 ou superior.
+
 ---
 
 ## 📐 Arquitetura
